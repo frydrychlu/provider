@@ -17,7 +17,7 @@ public class ShopController {
     private MongoTemplate mongoTemplate;
 
     @GetMapping("/products/{product}")
-    public ResponseEntity<String> getCountryByCapitalName(@PathVariable String productDto) {
+    public ResponseEntity<String> getProductByProductName(@PathVariable String productDto) {
         Product product = mongoTemplate.findOne(Query.query(Criteria.where("name").is(productDto)), Product.class);
         if (product != null) {
             return ResponseEntity.ok(product.getName());
@@ -27,7 +27,7 @@ public class ShopController {
     }
 
     @PostMapping("/product")
-    public ResponseEntity<String> addCountry(@RequestBody Product productDto) {
+    public ResponseEntity<String> addProduct(@RequestBody Product productDto) {
         Product product = new Product();
         product.setName(productDto.getName());
         product.setPrice(productDto.getPrice());
