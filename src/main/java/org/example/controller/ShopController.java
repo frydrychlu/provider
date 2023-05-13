@@ -8,19 +8,17 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 public class ShopController {
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @GetMapping("/products/{product}")
+    @GetMapping("/products/{productDto}")
     public ResponseEntity<String> getProductByProductName(@PathVariable String productDto) {
         Product product = mongoTemplate.findOne(Query.query(Criteria.where("name").is(productDto)), Product.class);
         if (product != null) {
-            return ResponseEntity.ok(product.getName());
+            return ResponseEntity.ok(product.getName() + " costs " + product.getPrice() + " euro");
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -39,9 +37,5 @@ public class ShopController {
             mongoTemplate.save(product, "products");
             return ResponseEntity.ok("Product added to collection: products");
         }
-    }
-
-    public List<Product> getAllDocuments(String collectionName) {
-        return mongoTemplate.findAll(Product.class, collectionName);
     }
 }
