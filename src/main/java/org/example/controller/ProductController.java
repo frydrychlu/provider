@@ -15,10 +15,10 @@ public class ProductController {
     private MongoTemplate mongoTemplate;
 
     @GetMapping("/products/{productDto}")
-    public ResponseEntity<String> getProductByProductName(@PathVariable String productDto) {
+    public ResponseEntity<Product> getProductByProductName(@PathVariable String productDto) {
         Product product = mongoTemplate.findOne(Query.query(Criteria.where("name").is(productDto)), Product.class);
         if (product != null) {
-            return ResponseEntity.ok(product.getName() + " costs " + product.getPrice() + " euro");
+            return ResponseEntity.ok(product);
         } else {
             return ResponseEntity.notFound().build();
         }
