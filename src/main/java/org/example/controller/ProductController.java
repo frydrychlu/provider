@@ -14,7 +14,7 @@ public class ProductController {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @GetMapping("/products/{productDto}")
+    @GetMapping("/product/{productDto}")
     public ResponseEntity<Product> getProductByProductName(@PathVariable String productDto) {
         Product product = mongoTemplate.findOne(Query.query(Criteria.where("name").is(productDto)), Product.class);
         if (product != null) {
